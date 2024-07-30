@@ -4,6 +4,7 @@ Packages
 Temp
 UserSettings
 .vsconfig
+.vscode
 holbertonschool-*.sln
 Billing*.json*
 *Settings*
