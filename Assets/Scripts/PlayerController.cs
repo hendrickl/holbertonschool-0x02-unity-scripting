@@ -5,11 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
-	 public float speed = 5.0f;
-	 public int health;
+    public float speed = 5.0f;
+    public int health;
 
-	 private int _score = 0;
-	 private int _initialHealth = 5;
+    private int _score = 0;
+    private int _initialHealth = 5;
+    private bool _canTeleport = true;
 
     void Start()
     {
@@ -52,5 +53,28 @@ public class PlayerController : MonoBehaviour {
         {
             Debug.Log("You win!");
         }
+        else if (other.gameObject.CompareTag("Teleporter") && _canTeleport)
+        {
+            _canTeleport = false;
+
+            GameObject[] teleporters = GameObject.FindGameObjectsWithTag("Teleporter");
+
+            foreach (GameObject teleporter in teleporters)
+            {
+                if (teleporter != other.gameObject)
+                {
+                    transform.position = teleporter.transform.position;
+                    break;
+                }
+            }
+            
+            StartCoroutine(EnableTeleportation());
+        }
 	}
+
+    private IEnumerator EnableTeleportation()
+    {
+        yield return new WaitForSeconds(0.5f); 
+        _canTeleport = true;
+    }
 }
